@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import WorkLabsLanding from './work-labs-landing'
+import OverlandTeaser from './overland-teaser'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <WorkLabsLanding />
+    <OverlandTeaser />
   </StrictMode>,
 )
