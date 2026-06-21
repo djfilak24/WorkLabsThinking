@@ -28,7 +28,7 @@ const CSS = `
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
 /* hero */
-.ovl-hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; }
+.ovl-hero { position: relative; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
 .ovl-hero-sky { position: relative; z-index: 4; flex: 1; display: flex; flex-direction: column; justify-content: center; padding-top: 116px; padding-bottom: 30px; }
 .ovl-h1 { font-size: clamp(3rem, 9.4vw, 7.4rem); margin: 18px 0 0; }
 .ovl-h1 .ln { display: block; overflow: hidden; padding-bottom: 0.04em; }
@@ -80,6 +80,14 @@ const CSS = `
 .ovl-ticker-track { display: inline-flex; gap: 38px; white-space: nowrap; padding: 13px 0; animation: ovl-marq 30s linear infinite; font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; letter-spacing: 0.10em; color: var(--steel); }
 .ovl-ticker-track .hot { color: var(--amber); }
 
+.ovl-trust { position: relative; z-index: 4; padding: 24px 0; background: var(--ink); border-bottom: 1px solid var(--steel-dim); }
+.ovl-trust-row { display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap; }
+.ovl-trust-list { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+.ovl-trust-item { display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.05em; color: var(--steel); white-space: nowrap; }
+.ovl-trust-item svg { width: 15px; height: 15px; color: var(--amber); flex: none; }
+.ovl-trust-rating { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; letter-spacing: 0.04em; color: var(--pale); white-space: nowrap; }
+.ovl-trust-rating b { color: var(--amber); font-size: 0.92rem; }
+
 .ovl-section { position: relative; z-index: 4; padding: clamp(6rem,12vh,9.5rem) 0; }
 .ovl-reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s, transform .9s; }
 .ovl-reveal.is-in { opacity: 1; transform: none; }
@@ -119,9 +127,14 @@ const CSS = `
 .ovl-mark { font-family:'Archivo',sans-serif; font-weight:900; font-size:1.3rem; letter-spacing:0.02em; }
 .ovl-foot-meta { font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.08em; color:var(--steel); }
 
-.ovl-nav { position:absolute; top:0; left:0; right:0; z-index:7; }
-.ovl-nav-row { display:flex; justify-content:space-between; align-items:center; padding:26px 0; gap: 14px; }
+.ovl-nav { position:fixed; top:0; left:0; right:0; z-index:50; background: rgba(8,13,23,0.62); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--steel-dim); }
+.ovl-nav-row { display:flex; justify-content:space-between; align-items:center; padding:18px 0; gap: 14px; }
 .ovl-nav .ovl-mark { font-size:1.15rem; }
+.ovl-brand { display:flex; align-items:center; gap:10px; }
+.ovl-logo-mark { width:30px; height:30px; display:flex; align-items:center; justify-content:center; color: var(--amber); flex:none; }
+.ovl-logo-mark svg { width:100%; height:100%; display:block; }
+.ovl-nav-right { display:flex; align-items:center; gap:18px; }
+.ovl-nav-btn { padding:10px 20px; font-size:0.78rem; }
 .ovl-nav-cta { font-family:'JetBrains Mono',monospace; font-size:0.74rem; letter-spacing:0.12em; color:var(--steel); text-transform:uppercase; display:flex; align-items:center; gap:9px; }
 
 /* ---------- system section ---------- */
@@ -246,7 +259,14 @@ const CSS = `
   .ovl-steps { grid-template-columns: 1fr; }
   .ovl-h1 { font-size: clamp(2.2rem, 12vw, 3rem); }
   .ovl-stats { gap: 16px; row-gap: 10px; }
+  .ovl-nav-row { padding: 14px 0; }
   .ovl-nav-cta { display: none; }
+  .ovl-nav .ovl-mark { font-size: 1rem; }
+  .ovl-logo-mark { width: 26px; height: 26px; }
+  .ovl-nav-btn { padding: 9px 14px; font-size: 0.68rem; }
+  .ovl-trust-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .ovl-trust-list { gap: 14px; overflow-x: auto; flex-wrap: nowrap; width: 100%; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+  .ovl-trust-item { font-size: 0.66rem; }
   .ovl-foot { padding: 30px 0; }
   .ovl-foot-base { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
@@ -266,6 +286,33 @@ const CSS = `
   .ovl-live-dot { animation:none !important; }
 }
 `;
+
+function LogoMark() {
+  return (
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="1.5" y="1.5" width="29" height="29" rx="6" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M7 21 L13 13 L17 17.5 L25 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="25" cy="9" r="2.1" fill="currentColor" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="10" cy="10" r="8.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M6.2 10.3 L8.7 12.8 L13.8 7.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+const TRUST_BADGES = [
+  "Insured & bonded",
+  "24/7 gated access",
+  "HD video surveillance",
+  "Lit lanes, concrete pads",
+  "Month-to-month leases",
+];
 
 const occHero = (i) => ((i * 7 + (i % 6) * 5 + (i % 4)) % 10) < 6;
 const wideHero = (i) => i % 9 === 3;
@@ -575,8 +622,14 @@ export default function OverlandTeaser() {
       <section className="ovl-hero">
         <nav className="ovl-nav">
           <div className="ovl-wrap ovl-nav-row">
-            <div className="ovl-mark">OVERLAND</div>
-            <div className="ovl-nav-cta"><span className="ovl-live-dot" />Outdoor storage · live</div>
+            <div className="ovl-brand">
+              <span className="ovl-logo-mark"><LogoMark /></span>
+              <span className="ovl-mark">OVERLAND</span>
+            </div>
+            <div className="ovl-nav-right">
+              <div className="ovl-nav-cta"><span className="ovl-live-dot" />Outdoor storage · live</div>
+              <button className="ovl-btn ovl-btn-primary ovl-nav-btn">Reserve a bay</button>
+            </div>
           </div>
         </nav>
 
@@ -644,6 +697,18 @@ export default function OverlandTeaser() {
           {[...TICKER, ...TICKER].map(([code, st, hot], i) => (
             <span key={i} className={hot ? "hot" : ""}>{code} · {st}</span>
           ))}
+        </div>
+      </div>
+
+      {/* TRUST */}
+      <div className="ovl-trust">
+        <div className="ovl-wrap ovl-trust-row">
+          <div className="ovl-trust-list">
+            {TRUST_BADGES.map((b) => (
+              <span className="ovl-trust-item" key={b}><CheckIcon />{b}</span>
+            ))}
+          </div>
+          <div className="ovl-trust-rating"><b>4.9★</b> from 200+ renters</div>
         </div>
       </div>
 
